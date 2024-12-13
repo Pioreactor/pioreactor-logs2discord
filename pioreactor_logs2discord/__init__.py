@@ -5,7 +5,7 @@ import logging
 from json import loads
 
 import click
-from pioreactor.background_jobs.base import BackgroundJobContrib
+from pioreactor.background_jobs.base import LongRunningBackgroundJobContrib
 from pioreactor.config import config
 from pioreactor.mureq import post
 from pioreactor.types import MQTTMessage
@@ -14,11 +14,7 @@ from pioreactor.whoami import get_unit_name
 from pioreactor.whoami import UNIVERSAL_EXPERIMENT
 
 
-# since this is a long-running job, we don't want it to be killed by pio kill --all-jobs.
-JobManager.LONG_RUNNING_JOBS = JobManager.LONG_RUNNING_JOBS + ("logs2discord",)
-
-
-class Logs2Discord(BackgroundJobContrib):
+class Logs2Discord(LongRunningBackgroundJobContrib):
     job_name = "logs2discord"
     colors = {
         "DEBUG": "65535",
